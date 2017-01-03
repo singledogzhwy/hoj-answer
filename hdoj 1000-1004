@@ -1,0 +1,196 @@
+code hdoj 1000
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+int main()
+{
+    int a,b;
+    while(cin>>a>>b)
+    {
+        cout<<a+b<<endl;
+    }
+    return 0;
+}
+----------------------------------------------------------------------------------------------------------------------------------------
+code hdoj 1001
+
+#include<stdio.h>
+using namespace std;
+
+int main()
+{
+    int n,i,sum;
+    while(scanf("%d",&n)!=-1)
+    {
+        sum=0;
+        for(i=0;i<=n;i++)
+        {
+            sum+=i;
+        }
+        printf("%d\n\n",sum);
+    }
+    return 0;
+}
+----------------------------------------------------------------------------------------------------------------------------------------
+code hdoj 1002
+
+#include<stdio.h>  
+#include<string.h>  
+
+int shu(char a)  
+{  
+    return (a-'0');  
+}  
+int main(){  
+    char a[1000],b[1000];  
+    int num[1001];  
+    int n,i,j=1,al,bl,k,t;  
+    scanf("%d",&n);  
+    while(n--)  
+    {  
+        if(j!=1)  
+       printf("\n");  
+       scanf("%s",a);  
+       al=strlen(a);  
+       scanf("%s",b);  
+       bl=strlen(b);  
+       k=(al>bl)?al:bl;  
+       for(i=0;i<=k;i++)  
+       num[i]=0;  
+       t=k;  
+       for(k;al>0&&bl>0;k--)  
+       {  
+           num[k]+=shu(a[--al])+shu(b[--bl]);  
+  
+           if(num[k]/10)  
+           {  
+               num[k-1]++;  
+               num[k]%=10;  
+           }  
+       }  
+       while(al>0)  
+       {  
+            num[k--]+=shu(a[--al]);  
+            if(num[k+1]/10)  
+           {  
+               num[k]++;  
+               num[k+1]%=10;  
+           }  
+       }  
+       while(bl>0)  
+       {  
+            num[k--]+=shu(b[--bl]);  
+            if(num[k+1]/10)  
+           {  
+               num[k]++;  
+               num[k+1]%=10;  
+           }  
+       }  
+  
+       printf("Case %d:\n",j++);  
+       printf("%s + %s = ",a,b);  
+       for(i=0;i<=t;i++)  
+       {  
+           if(i==0&&num[i]==0)  
+           i++;  
+           printf("%d",num[i]);  
+       }  
+       printf("\n");  
+   }  
+   return 0;  
+}  
+----------------------------------------------------------------------------------------------------------------------------------------
+code hdoj 1003
+
+#include <stdio.h>
+#define  MAX_LEN  100000
+int max_subseq(int *array, unsigned int size, unsigned int *start, unsigned int *end)
+{
+    int max_sum = -2000, sum = 0;
+    int curstart = *start = 0;
+    unsigned int i;
+
+    for (i = 0; i < size; i++){
+        if (sum < 0){
+            sum = array[i];
+            curstart = i;  
+        } else {
+            sum += array[i];
+        }
+
+        if (sum > max_sum){
+            max_sum = sum;
+            *start = curstart;
+            *end   = i;
+        }
+    }
+
+    return max_sum;
+}
+
+int main(void)
+{
+    int A[MAX_LEN];
+    int i = 0, round, n, max;
+    unsigned int start, end;
+
+    scanf("%d", &round);
+
+    while (i++ < round)
+    {
+        scanf("%d", &n);
+        for (int j = 0; j < n; j++){
+            scanf("%d", &A[j]);
+        }
+        max = max_subseq(A, n, &start, &end);
+
+        printf("Case %d:\n", i);
+        printf("%d %d %d\n", max, start + 1, end + 1);
+
+        if (i != round) printf("\n");
+    }
+
+    return 0;
+}
+-------------------------------------------------------------------------------------------------------------------------------------
+code hdoj 1004
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+#define M 1005
+using namespace std;
+int main()
+{
+    string s[M];
+    int n;
+    while(cin >> n && n != 0)
+    {
+        for(int i=0; i<n; i++)
+            cin >> s[i];
+
+        sort(s, s+n);
+        int num = 1, max = 1;
+        string str = s[0];
+        for(int i=1; i<n; i++)
+        {
+            if(s[i] == s[i-1])
+                num++;
+            else 
+            {
+                if(num > max)
+                {
+                    str = s[i-1];
+                    max = num;
+                }
+                num = 1;
+            }
+        }
+        if(num > max)   str = s[n-1];
+        cout << str << endl;
+    }
+    return 0;
+}
+-------------------------------------------------------------------------------------------------------------------------------------
