@@ -162,3 +162,33 @@ int main()
     }  
     return 0;  
 }
+---------------------------------------
+code 1008   //shuiti
+#include<stdio.h>
+#include<iostream>
+#include<string.h>
+#include<memory.h>
+using namespace std;
+int main(){
+   int n;
+   int result[100];
+   while(scanf("%d",&n)&&n!=0){
+        int total=0,start=0;
+        for(int i=0;i<n;i++){
+            scanf("%d",&result[i]);
+        }
+        for(int i=0;i<n;i++){
+            //上楼
+            if(result[i]>start){
+                total+=(result[i]-start)*6+5;
+                start=result[i];
+            }else if(result[i]<start){//下楼
+                total+=(start-result[i])*4+5;
+                start=result[i];
+            }else{//不动
+                total+=5;
+            }
+        }
+        printf("%d\n",total);
+   }
+}
