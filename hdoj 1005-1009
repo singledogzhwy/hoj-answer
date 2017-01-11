@@ -192,3 +192,53 @@ int main(){
         printf("%d\n",total);
    }
 }
+------------------------------------
+code 1009  //看起来好像背包问题，其实只是简单的贪心问题。过程中用一下sort函数，就不用自己写了，就当回忆一下。
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <algorithm>
+#include <iomanip>
+
+using namespace std;
+
+struct t_f
+{
+    int t,f;
+};
+
+int n,m;
+int i;
+double sum;
+
+int cmp(t_f a,t_f b)
+{
+    return (double)a.t/a.f > (double)b.t/b.f;
+}
+
+int main()
+{
+    while(cin>>m>>n&&(n!=-1||m!=-1))
+    {
+        vector<t_f>a(n);
+        for(i=0;i<n;i++)
+        {
+            cin>>a[i].t>>a[i].f;
+        }
+        sort(a.begin(),a.end(),cmp);
+        sum=0;
+        for(i=0;m&&i<n;i++)
+        {
+            if(m>=a[i].f)
+            {
+                sum+=a[i].t;m-=a[i].f;
+            }
+            else
+            {
+                sum+=(double)(a[i].t)*m/a[i].f;m=0;
+            }
+        }
+        cout<<fixed<<setprecision(3)<<sum<<endl;
+    }
+    return 0;
+}
