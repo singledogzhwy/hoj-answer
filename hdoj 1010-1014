@@ -1,6 +1,6 @@
 code 1010               
  // 讲道理，用dfs加一个计数器就行了。但神奇的是结果TLE，看来还没达到要求。于是就要进行剪枝，详细过程我就不写了，复制一下网上的解释
- 
+ //其实刚开始我是不会的。看着解释想了好久
  //方格中起点（tx，ty）和终点（dx, dy）最小步骤是minstep=abs(tx-dx)+abs(ty-dy);
 
 //给定步数t，从起点走到终点，如果t < minstep,不可以，如果t =minstep,一部也没有多走，如果t> minstep,则多走了extra步,extra=t-minstep;
