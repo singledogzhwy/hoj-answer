@@ -82,4 +82,75 @@ code 1010
              printf("NO\n");
      }
      return 0;
- }
+ }----------------------------------------------
+ 
+ code 1011    //用树形dp解决，dp公式是value[u][j] = max(value[u][j], value[u][j-k]+value[v][k])
+ //具体思路我组织一下语言再写。。。
+ #include<iostream>
+#include<string.h>
+using namespace std;
+
+typedef struct{
+    int bugs;
+    int brains;
+}Room;
+
+Room rooms[101];
+int value[101][101];
+int matrix[101][101];
+int visited[101];
+int m, n;
+
+int max(int a,int b)
+{
+return a>b?a:b;
+}
+
+void dpTree(int u)
+{
+    int i, j, k, v, r;
+    visited[u] = 1;
+    r = (rooms[u].bugs+19)/20;
+    for(i=m; i>=r; i--){
+        value[u][i] = rooms[u].brains;
+    }
+    for(v=1; v<=n; v++){
+        if(matrix[u][v] && !visited[v]){
+            dpTree(v);
+            for(j=m; j>=r; j--){
+                for(k=1; k<=j-r; k++){
+                    value[u][j] = max(value[u][j], value[u][j-k]+value[v][k]);
+                }
+            }
+        }
+    }
+}
+
+int main()
+{
+    int i, j, u, v;
+
+    while(scanf("%d%d", &n, &m) != EOF){
+        if(n == -1){
+            break;
+        }
+        memset(rooms, 0, sizeof(rooms));
+        memset(matrix, 0, sizeof(matrix));
+        memset(visited, 0, sizeof(visited));
+        memset(value, 0, sizeof(value));
+        for(i=1; i<=n; i++){
+            scanf("%d%d", &rooms[i].bugs, &rooms[i].brains);
+        }
+        for(i=1; i<n; i++){
+            scanf("%d%d", &u, &v);
+            matrix[u][v] = matrix[v][u] = 1;
+        }
+        if(m == 0){
+            printf("0\n");
+            continue;
+        }
+        dpTree(1);
+        printf("%d\n", value[1][m]);
+    }
+    return 0;
+}
