@@ -1,0 +1,85 @@
+code 1010               
+ // 讲道理，用dfs加一个计数器就行了。但神奇的是结果TLE，看来还没达到要求。于是就要进行剪枝，详细过程我就不写了，复制一下网上的解释
+ 
+ //方格中起点（tx，ty）和终点（dx, dy）最小步骤是minstep=abs(tx-dx)+abs(ty-dy);
+
+//给定步数t，从起点走到终点，如果t < minstep,不可以，如果t =minstep,一部也没有多走，如果t> minstep,则多走了extra步,extra=t-minstep;
+
+//经过推导可以证明多走的一定是偶数步，即extra一定是偶数。
+
+//现在，如果已经走了n步，到达了（x，y）的位置，现在距离终点最小距离是L=abs(x-dx)+abs(y-dy); 现在还可以走的是 t - n 步，如果（t-n）<0,则不能走到地方，如果（t- n）-L 是奇数，则无法多走出偶数步到达指定位置，所以这样的是不行的；
+
+//同时，本题时间卡的比较紧，使用dfs事实上是构造可行方案树，有m步最后就有2^m个叶子，所以在进入下一层dfs之前判断是否可行可以减少一大部分叶子；
+//这题是前面几道题里比较麻烦的。
+#include<iostream>
+ #include<math.h>
+ 
+ using namespace std;
+ int n,m,t,k,dx,dy;
+     int p,q,tm;
+     int dir[4][2]={{-1,0},{0,1},{1,0},{0,-1}};
+ char a[8][8];
+ void dfs(int x,int y,int count)
+ {
+     int temp;
+     temp=t-count-abs(dx-x)-abs(dy-y);
+     if(temp<0||temp%2==1)                    
+         return ;
+ 
+     int tx,ty;
+         for(int i=0;i<4;i++)                
+         {
+             tx=x+dir[i][0];
+             ty=y+dir[i][1];
+             if(a[tx][ty]=='D'&&count==t-1)
+             {
+                 k=1;
+                 return ;
+             }
+             if(a[tx][ty]=='.'&&(tx>=0&&tx<n)&&(ty>=0&&ty<m))
+             {
+                 a[tx][ty]='X';
+                 dfs(tx,ty,count+1);
+                 a[tx][ty]='.';
+                 if(k==1)          
+                     return ;
+             }
+         }
+     
+ }
+ int main()
+ {
+     while(cin>>n>>m>>t&&n!=0||m!=0||t!=0)
+     {
+         tm=0;
+         for(int i=0;i<n;i++)
+         {
+             for(int j=0;j<m;j++)
+             {
+                 cin>>a[i][j];
+                 if(a[i][j]=='S')
+                 {
+                     p=i;q=j;
+                 }
+                 if(a[i][j]=='D')
+                 {
+                     dx=i;dy=j;
+                 }
+                 if(a[i][j]=='X')
+                     tm++;
+             }
+         }
+         k=0;
+         if(n*m-tm<=t)    
+         {
+             printf("NO\n");
+             continue;
+         }
+         dfs(p,q,0);
+         if(k==1)
+             printf("YES\n");
+         else
+             printf("NO\n");
+     }
+     return 0;
+ }
