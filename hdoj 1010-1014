@@ -84,8 +84,8 @@ code 1010
      return 0;
  }----------------------------------------------
  
- code 1011    //用树形dp解决，dp公式是value[u][j] = max(value[u][j], value[u][j-k]+value[v][k])
- //具体思路我组织一下语言再写。。。
+ code 1011    //用树形dp解决，dp公式是value[u][j] = max(value[u][j], value[u][j-k]+value[v][k])这里value[u][j]表示以u为根节点，
+ //j为trooper数可收获的最大brain数，其中，k的取值范围是0~（j-r），r是根节点u需要消耗的trooper数，v表示的是u的所有邻接点集合。
  #include<iostream>
 #include<string.h>
 using namespace std;
