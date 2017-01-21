@@ -199,4 +199,95 @@ int main()
   }
 	}
 	return 0;
+}--------------------------------
+code 1013
+#include<cstdio>//水题一个，考察字符串的操作
+#include<string.h>
+#include<math.h>
+
+int root(int a)
+
+{
+
+int t=0;
+
+while(a>9)
+
+{
+
+t+=a%10;
+
+a=(a-a%10)/10;
+
+}
+
+if(t+a>9) t=root(t+a);
+
+else t+=a;
+
+return t;
+
+}
+
+int main()
+
+{
+
+char c[1001];
+
+while(scanf("%s",c)!=EOF && (c[0]!='0'))
+
+{
+
+int a=0,i;
+
+for(i=0; c[i]!='\0'; i++)
+
+{
+
+a=a+c[i]-'0';
+
+}
+
+printf("%d\n",root(a));
+
+memset(c,0,sizeof(c));
+
+}
+
+return 0;
+
+}--------------------------------
+code 1014//先一直计算seed值，建一个标记数组p初始化为0，当seed值出现为x时令p[x]==1；当重复了就退出循环。然后判断一下p[]是否全为1就行了。
+#include<iostream>
+#include<cstring>
+#include<iomanip>
+using namespace std;
+ 
+int p[100000];
+ 
+bool allOnes(int mod){//判断
+    for(int i=0;i<mod;i++)
+        if(p[i]==0 || p[i]>1)
+            return false;
+    return true;
+}
+ 
+int main()
+{
+    int step,mod;
+    while(cin>>step>>mod)
+    {
+ 
+        memset(p,0,sizeof(p));
+        for(int i=0;p[0]==0||i!=0;i=(i+step)%mod)
+            p[i]++;
+        cout<<setiosflags(ios::right)<<setw(10)<<step;
+        cout<<setiosflags(ios::right)<<setw(10)<<mod;
+        if(allOnes(mod))
+            cout<<setw(4)<<""<<"Good Choice\n"<<endl;
+        else
+            cout<<setw(4)<<""<<"Bad Choice\n"<<endl;
+    }
+    return 0;
 }
